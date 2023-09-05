@@ -1,9 +1,7 @@
-<!-- src/components/AmountInput.vue -->
 <template>
     <div>
         <input v-model.number="amount" type="number"
-            class="block w-full px-4 py-2 rounded border shadow-sm focus:outline-none focus:ring focus:border-blue-300"
-            placeholder="Enter amount" />
+           class="input-field" placeholder="Enter amount"  />
     </div>
 </template>
 
@@ -24,3 +22,19 @@ export default {
     },
 };
 </script>
+<style scoped>
+.input-field {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.input-field:focus {
+    border-color: #3490dc;
+    box-shadow: 0 0 0.5rem rgba(52, 144, 220, 0.5);
+}
+</style>

@@ -4,6 +4,6 @@ import store from './store';
 
 const app = createApp(App);
 
-app.use(store); // This line adds Vuex as a plugin
+app.use(store);  
 
 app.mount('#app');

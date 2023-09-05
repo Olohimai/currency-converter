@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 
-const apiUrl = 'https://api.exchangerate-api.com/v4/latest/USD'; // Update with your desired base currency
+const apiUrl = 'http://www.floatrates.com/daily/usd.json';  
 
 export default createStore({
     state: {
@@ -9,7 +9,7 @@ export default createStore({
         targetCurrency: 'EUR',
         conversionRate: 0,
         convertedAmount: 0,
-        currencies: [], // List of available currencies
+        currencies: [],  
     },
     mutations: {
         updateAmount(state, amount) {
@@ -34,16 +34,23 @@ export default createStore({
     actions: {
         async fetchConversionRate({ commit, state }) {
             try {
-                const response = await fetch(apiUrl); // Use the updated apiUrl
+                const response = await fetch(apiUrl);
                 const data = await response.json();
-                const currencies = Object.keys(data.rates); // Get all available currencies
-                commit('updateCurrencies', currencies); // Update the list of currencies in the store
-                const conversionRate = data.rates[state.targetCurrency];
-                commit('updateConversionRate', conversionRate);
-                commit('updateConvertedAmount', state.amount * conversionRate);
+
+                if (data[state.targetCurrency]) {
+                    const conversionRate = data[state.targetCurrency].rate;
+                    commit('updateConversionRate', conversionRate);
+                    commit('updateConvertedAmount', state.amount * conversionRate);
+                } else {
+                    console.error('Invalid target currency:', state.targetCurrency);
+                }
+ 
+                const currencies = Object.keys(data);
+                commit('updateCurrencies', currencies);
             } catch (error) {
                 console.error(error);
             }
         },
     },
+
 });
